@@ -2,6 +2,16 @@
 
 Welcome to the ExamPrepBuddy Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
 
+## Features
+
+- Organizes and maps all course materials to syllabus modules
+- Summarizes materials and generates diagrams/flowcharts (multimodal LLM)
+- Scrapes and analyzes previous year question papers (PYQs)
+- Generates mock question papers
+- Creates an optimized study schedule
+- Consolidates all outputs into comprehensive documents
+- Chat interface for student queries
+
 ## Installation
 
 Ensure you have Python >=3.10 <3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
@@ -15,9 +25,11 @@ pip install uv
 Next, navigate to your project directory and install the dependencies:
 
 (Optional) Lock the dependencies and install them by using the CLI command:
+
 ```bash
 crewai install
 ```
+
 ### Customizing
 
 **Add your `OPENAI_API_KEY` into the `.env` file**
@@ -46,9 +58,36 @@ The exam_prep_buddy Crew is composed of multiple AI agents, each with unique rol
 ## Support
 
 For support, questions, or feedback regarding the ExamPrepBuddy Crew or crewAI.
+
 - Visit our [documentation](https://docs.crewai.com)
 - Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
 - [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
 - [Chat with our docs](https://chatg.pt/DWjSBZn)
 
 Let's create wonders together with the power and simplicity of crewAI.
+
+## Setup
+
+1. Install dependencies:
+   ```powershell
+   pip install -r requirements.txt
+   ```
+2. Place your course materials in a folder and provide the syllabus and exam type as input.
+3. Run the main script:
+   ```powershell
+   python -m exam_prep_buddy.main
+   ```
+
+## Custom Tools
+
+- Multimodal/image processing: see `src/exam_prep_buddy/tools/multimodal_tool.py`
+- PYQ scraping: see `src/exam_prep_buddy/tools/pyq_scraper.py`
+
+## Extending
+
+- Add more agents/tasks in `config/agents.yaml` and `config/tasks.yaml`.
+- Implement tool logic as needed for your use case.
+
+---
+
+_Powered by CrewAI_

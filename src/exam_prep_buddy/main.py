@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import sys
 import warnings
-
+import os
 from datetime import datetime
+from pathlib import Path
 
 from exam_prep_buddy.crew import ExamPrepBuddy
 
@@ -15,15 +16,42 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 def run():
     """
-    Run the crew.
+    Run the crew with all required exam prep inputs.
     """
+    # Example: update these with real values or parse from CLI/GUI
+    course_code = "BCSE302L"
+    exam_type = "FAT"  # e.g., TH, PR, etc.
+    materials_folder_path = r"c:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material"
+    current_year = str(datetime.now().year)
+
+    # Locate syllabus PDF
+    syllabus_pdf = None
+    for file in os.listdir(materials_folder_path):
+        if file.lower().endswith('.pdf') and 'syllabus' in file.lower() or course_code in file:
+            syllabus_pdf = os.path.join(materials_folder_path, file)
+            break
+    if not syllabus_pdf:
+        # fallback: pick the first PDF
+        for file in os.listdir(materials_folder_path):
+            if file.lower().endswith('.pdf'):
+                syllabus_pdf = os.path.join(materials_folder_path, file)
+                break
+    if not syllabus_pdf:
+        raise FileNotFoundError("No syllabus PDF found in materials folder.")
+
+    # Prepare inputs for the crew
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'topic': 'Database Systems',
+        'course_code': course_code,
+        'exam_type': exam_type,
+        'materials_folder_path': materials_folder_path,
+        'syllabus_pdf': syllabus_pdf
     }
-    
+
     try:
-        ExamPrepBuddy().crew().kickoff(inputs=inputs)
+        buddy = ExamPrepBuddy()
+        buddy.set_inputs(inputs)
+        buddy.crew().kickoff()
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 

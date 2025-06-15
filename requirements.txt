@@ -1,0 +1,8 @@
+crewai
+pydantic
+requests
+beautifulsoup4
+pillow
+openai
+pymupdf
+# Add multimodal/image LLMs as needed (e.g., transformers, diffusers, etc.)
