@@ -3,6 +3,8 @@ import sys
 import warnings
 
 from datetime import datetime
+from exam_prep_buddy.tools.pdf_utils import extract_text_from_pdf
+from exam_prep_buddy.tools.material_utils import extract_all_materials
 
 from exam_prep_buddy.crew import ExamPrepBuddy
 
@@ -17,11 +19,16 @@ def run():
     """
     Run the crew.
     """
+    syllabus_pdf_path = r"C:\Varun\VSCode\Projects\LTIMindtree Internship\BCSE302L_DATABASE-SYSTEMS_TH_1.0_67_BCSE302L.pdf"
+    materials_folder_path = r"C:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material"
+    syllabus_text = extract_text_from_pdf(syllabus_pdf_path)
+    extracted_materials = extract_all_materials(materials_folder_path)
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'syllabus_pdf': syllabus_pdf_path,
+        'materials_folder': materials_folder_path,
+        'syllabus_text': syllabus_text,
+        'extracted_materials': extracted_materials
     }
-    
     try:
         ExamPrepBuddy().crew().kickoff(inputs=inputs)
     except Exception as e:
@@ -33,8 +40,8 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
+        'syllabus_pdf': "C:\Varun\VSCode\Projects\LTIMindtree Internship\BCSE302L_DATABASE-SYSTEMS_TH_1.0_67_BCSE302L.pdf",
+        'materials_folder': "C:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material",
     }
     try:
         ExamPrepBuddy().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
@@ -57,8 +64,8 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        'syllabus_pdf': "C:\Varun\VSCode\Projects\LTIMindtree Internship\BCSE302L_DATABASE-SYSTEMS_TH_1.0_67_BCSE302L.pdf",
+        'materials_folder': "C:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material",
     }
     
     try:
