@@ -1,48 +1,33 @@
-material_organizing_task:
-  description: >
-    Given the syllabus PDF at {syllabus_pdf} and the folder {materials_folder_path}, identify the syllabus structure and modules, then categorize all other files into the correct modules. Exclude the syllabus file itself from categorization.
-  expected_output: >
-    A dictionary mapping each module to a list of relevant files (excluding the syllabus PDF).
-  agent: material_organizer
+extract_modules_and_topics:
+  description: |
+    You are given the following syllabus text:
+    {syllabus_text}
+    Carefully read this text and extract all modules and their topics, exactly as they appear in the syllabus. Do not invent or assume any content.
+  input:
+    syllabus_pdf: ""
+    syllabus_text: ""
+  expected_output: |
+    A structured list or dictionary of modules and their topics, strictly based on the provided syllabus text.
+  agent: syllabus_analyzer
 
-material_analysis_task:
-  description: >
-    For each module, analyze all assigned files and generate comprehensive, clear notes. Summarize key concepts, definitions, and generate diagrams/flowcharts if needed using multimodal LLMs. Use the mapping from the organizer.
-  expected_output: >
-    Notes for each module, with summaries, key concepts, and visual aids.
-  agent: material_analyst
+extract_material_content:
+  description: |
+    For each file in the provided materials folder, here is the extracted content:
+    {extracted_materials}
+    Output the actual extracted content for each file. Do not summarize or invent content.
+  input:
+    materials_folder: ""
+    extracted_materials: ""
+  expected_output: |
+    A mapping of each file name to its extracted text and images, using only the real file content.
+  agent: material_extractor
 
-pyq_analysis_task:
-  description: >
-    Use the course code {course_code} and exam type {exam_type} to find and analyze all previous year question papers from https://www.vhelpcc.com/pyqs. Identify recurring topics, question styles, mark distribution, and module weightage. Estimate difficulty and recommended study time for each module.
-  expected_output: >
-    Insights including module weightage, distribution, difficulty, and recommended study time.
-  agent: pyq_analyst
-
-qp_generation_task:
-  description: >
-    Generate several mock question papers for the user to practice, based on the insights and patterns found in the previous year question papers. Match the format and difficulty of real exams for {course_code}.
-  expected_output: >
-    A list of mock question papers in markdown format.
-  agent: qp_generator
-
-schedule_optimization_task:
-  description: >
-    Using the module weightage, difficulty, and time estimates from the PYQ analysis, generate an optimized study schedule and actionable insights for the student for {course_code}.
-  expected_output: >
-    A detailed study schedule and actionable insights for the student.
-  agent: schedule_optimizer
-
-consolidation_task:
-  description: >
-    Compile all outputs into a new folder named after the course code {course_code}. Save notes for each module in separate files, mock question papers in separate files, and all insights in a single file.
-  expected_output: >
-    A folder named after the course code containing: notes for each module, mock question papers, and an insights file.
-  agent: consolidator
-
-chat_task:
-  description: >
-    Answer student queries and clarify doubts based on all available materials and analyses for {course_code}.
-  expected_output: >
-    Accurate, helpful responses to student questions.
-  agent: chat_agent
+categorize_materials_by_module:
+  description: |
+    Using the modules/topics and extracted materials provided as input, match each file or section to the correct module/topic. Only use the provided content for your decisions. Do not invent or assume any information.
+  input:
+    modules_and_topics: modules_and_topics
+    extracted_materials: extracted_materials
+  expected_output: |
+    A mapping of each file (or section) to the most relevant module/topic, based strictly on the real extracted content and syllabus structure.
+  agent: material_categorizer

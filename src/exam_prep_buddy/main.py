@@ -3,7 +3,8 @@ import sys
 import warnings
 import os
 from datetime import datetime
-from pathlib import Path
+from exam_prep_buddy.tools.pdf_utils import extract_text_from_pdf
+from exam_prep_buddy.tools.material_utils import extract_all_materials
 
 from exam_prep_buddy.crew import ExamPrepBuddy
 
@@ -18,36 +19,16 @@ def run():
     """
     Run the crew with all required exam prep inputs.
     """
-    # Example: update these with real values or parse from CLI/GUI
-    course_code = "BCSE302L"
-    exam_type = "FAT"  # e.g., TH, PR, etc.
-    materials_folder_path = r"c:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material"
-    current_year = str(datetime.now().year)
-
-    # Locate syllabus PDF
-    syllabus_pdf = None
-    for file in os.listdir(materials_folder_path):
-        if file.lower().endswith('.pdf') and 'syllabus' in file.lower() or course_code in file:
-            syllabus_pdf = os.path.join(materials_folder_path, file)
-            break
-    if not syllabus_pdf:
-        # fallback: pick the first PDF
-        for file in os.listdir(materials_folder_path):
-            if file.lower().endswith('.pdf'):
-                syllabus_pdf = os.path.join(materials_folder_path, file)
-                break
-    if not syllabus_pdf:
-        raise FileNotFoundError("No syllabus PDF found in materials folder.")
-
-    # Prepare inputs for the crew
+    syllabus_pdf_path = r"C:\Varun\VSCode\Projects\LTIMindtree Internship\BCSE302L_DATABASE-SYSTEMS_TH_1.0_67_BCSE302L.pdf"
+    materials_folder_path = r"C:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material"
+    syllabus_text = extract_text_from_pdf(syllabus_pdf_path)
+    extracted_materials = extract_all_materials(materials_folder_path)
     inputs = {
-        'topic': 'Database Systems',
-        'course_code': course_code,
-        'exam_type': exam_type,
-        'materials_folder_path': materials_folder_path,
-        'syllabus_pdf': syllabus_pdf
+        'syllabus_pdf': syllabus_pdf_path,
+        'materials_folder': materials_folder_path,
+        'syllabus_text': syllabus_text,
+        'extracted_materials': extracted_materials
     }
-
     try:
         buddy = ExamPrepBuddy()
         buddy.set_inputs(inputs)
@@ -61,8 +42,8 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
+        'syllabus_pdf': "C:\Varun\VSCode\Projects\LTIMindtree Internship\BCSE302L_DATABASE-SYSTEMS_TH_1.0_67_BCSE302L.pdf",
+        'materials_folder': "C:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material",
     }
     try:
         ExamPrepBuddy().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
@@ -85,8 +66,8 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        'syllabus_pdf': "C:\Varun\VSCode\Projects\LTIMindtree Internship\BCSE302L_DATABASE-SYSTEMS_TH_1.0_67_BCSE302L.pdf",
+        'materials_folder': "C:\Varun\VSCode\Projects\LTIMindtree Internship\dbs material",
     }
     
     try:
