@@ -42,15 +42,9 @@ class ExamPrepBuddy():
         )
 
     @task
-    def extract_material_content(self) -> Task:
+    def categorize_materials_by_filename(self) -> Task:
         return Task(
-            config=self.tasks_config['extract_material_content'],
-        )
-
-    @task
-    def categorize_materials_by_module(self) -> Task:
-        return Task(
-            config=self.tasks_config['categorize_materials_by_module'],
+            config=self.tasks_config['categorize_materials_by_filename'],
         )
 
     @crew

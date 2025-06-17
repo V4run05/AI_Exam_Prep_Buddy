@@ -10,24 +10,14 @@ extract_modules_and_topics:
     A structured list or dictionary of modules and their topics, strictly based on the provided syllabus text.
   agent: syllabus_analyzer
 
-extract_material_content:
+categorize_materials_by_filename:
   description: |
-    For each file in the provided materials folder, here is the extracted content:
-    {extracted_materials}
-    Output the actual extracted content for each file. Do not summarize or invent content.
+    You are given a list of filenames from the materials folder:
+    {categorized_materials}
+    Categorize each file into the most relevant module/topic based on its filename or known keywords. If the file appears to be a textbook or reference, assign it to the "Textbooks" or "Others" category. Only if the filename does not match any module or topic, recommend content analysis for further categorization.
   input:
     materials_folder: ""
-    extracted_materials: ""
+    categorized_materials: ""
   expected_output: |
-    A mapping of each file name to its extracted text and images, using only the real file content.
-  agent: material_extractor
-
-categorize_materials_by_module:
-  description: |
-    Using the modules/topics and extracted materials provided as input, match each file or section to the correct module/topic. Only use the provided content for your decisions. Do not invent or assume any information.
-  input:
-    modules_and_topics: modules_and_topics
-    extracted_materials: extracted_materials
-  expected_output: |
-    A mapping of each file (or section) to the most relevant module/topic, based strictly on the real extracted content and syllabus structure.
+    A mapping of each file to the most relevant module/topic, or to "Textbooks"/"Others" if appropriate, based strictly on the filename and known keywords.
   agent: material_categorizer
