@@ -1,6 +1,5 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from .tools.pdf_utils import extract_text_from_pdf
 from .tools.docx_utils import extract_text_from_docx
@@ -11,7 +10,7 @@ import os
 class ExamPrepBuddy():
     """ExamPrepBuddy crew"""
 
-    agents: List[BaseAgent]
+    agents: List[Agent]
     tasks: List[Task]
 
     @agent
