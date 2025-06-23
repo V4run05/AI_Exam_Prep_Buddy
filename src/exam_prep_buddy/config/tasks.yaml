@@ -1,6 +1,6 @@
 extract_task:
   description: >
-    Extract all readable text from the file at {material_file}. Analyze its structure and identify key sections and points.
+    Extract all readable text from the file at {material_file
   expected_output: >
     A structured summary of the file's main sections and key points.
   agent: extractor
@@ -11,7 +11,10 @@ notes_task:
     ---
     {material_text}
     ---
-    Based only on this content, generate highly detailed, exam-focused notes. For each topic, provide clear explanations, step-by-step breakdowns, and examples where possible. Do not use any outside knowledge or generic information—only use what is present in the provided material.
+    Only generate notes for the following section headings, and ignore all others:
+    {allowed_headings}
+    ---
+    For each heading, extract and list only the most important points, facts, or statements exactly as they appear in the material. Do not summarize, rephrase, or make your own notes. Only include content that is directly copied from the material and is essential for exam preparation. Keep the output concise and focused on what must not be missed for the exam.
   expected_output: >
-    Markdown-formatted notes with headings, bullet points, and detailed explanations for each key topic. Include examples and clarify all important concepts, but do not add anything not found in the provided material.
+    Markdown-formatted bullet points, each copied verbatim from the material, grouped under the relevant headings. Do not add explanations, summaries, or your own words. Only include the most important, exam-critical points as they appear in the material.
   agent: note_maker
