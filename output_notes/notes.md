@@ -1,4 +1,3 @@
-```markdown
 ## Chapter 18 : Concurrency Control
 
 *   Chapter 18 : Concurrency Control
@@ -470,4 +469,3 @@
 *   First condition applies when execution is not concurrent
 *   The writes of Tj do not affect reads of Ti since they occur after Ti has finished its reads.
 *   If the second condition holds, execution is concurrent, Tj does not read any item written by Ti.
-```
